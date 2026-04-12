@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タスク管理アプリ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>タスク管理</h1>
+      <button id="btn-add-task" data-testid="btn-add-task" class="btn btn-primary">+ 新しいタスク</button>
+    </header>
+
+    <div class="toolbar">
+      <div class="filter-group">
+        <label>カテゴリ：</label>
+        <select id="filter-category" data-testid="filter-category">
+          <option value="">すべて</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>優先度：</label>
+        <select id="filter-priority" data-testid="filter-priority">
+          <option value="">すべて</option>
+          <option value="high">高</option>
+          <option value="medium">中</option>
+          <option value="low">低</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>状態：</label>
+        <select id="filter-status" data-testid="filter-status">
+          <option value="">すべて</option>
+          <option value="active">未完了</option>
+          <option value="done">完了済み</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>並び替え：</label>
+        <select id="sort-by" data-testid="sort-by">
+          <option value="createdAt">作成日</option>
+          <option value="dueDate">期限日</option>
+          <option value="priority">優先度</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="task-list" data-testid="task-list"></div>
+  </div>
+
+  <!-- タスクモーダル -->
+  <div id="modal-overlay" data-testid="modal-overlay" class="hidden">
+    <div id="modal">
+      <h2 id="modal-title">新しいタスク</h2>
+      <form id="task-form" data-testid="task-form">
+        <div class="form-row">
+          <label for="task-title">タイトル <span class="required">*</span></label>
+          <input type="text" id="task-title" data-testid="task-title-input" placeholder="タスクのタイトル" required>
+        </div>
+        <div class="form-row">
+          <label for="task-category">カテゴリ</label>
+          <div class="category-input-wrap">
+            <select id="task-category" data-testid="task-category-select">
+              <option value="">カテゴリなし</option>
+            </select>
+            <input type="text" id="new-category" data-testid="new-category-input" placeholder="新しいカテゴリ">
+            <button type="button" id="btn-add-category" data-testid="btn-add-category" class="btn btn-sm">追加</button>
+          </div>
+          <div id="category-tags" data-testid="category-tags"></div>
+        </div>
+        <div class="form-row form-row-2col">
+          <div>
+            <label for="task-start-date">開始日</label>
+            <input type="date" id="task-start-date" data-testid="task-start-date">
+          </div>
+          <div>
+            <label for="task-due-date">期限日</label>
+            <input type="date" id="task-due-date" data-testid="task-due-date">
+          </div>
+        </div>
+        <div class="form-row">
+          <label>優先度</label>
+          <div class="priority-buttons">
+            <label class="priority-label high">
+              <input type="radio" name="priority" value="high" data-testid="priority-radio-high"> 高
+            </label>
+            <label class="priority-label medium">
+              <input type="radio" name="priority" value="medium" data-testid="priority-radio-medium" checked> 中
+            </label>
+            <label class="priority-label low">
+              <input type="radio" name="priority" value="low" data-testid="priority-radio-low"> 低
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="task-memo">メモ</label>
+          <textarea id="task-memo" data-testid="task-memo-input" rows="3" placeholder="メモを入力..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="btn-cancel" data-testid="btn-cancel" class="btn btn-secondary">キャンセル</button>
+          <button type="submit" data-testid="btn-save-task" class="btn btn-primary">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- メモ表示モーダル -->
+  <div id="memo-overlay" data-testid="memo-overlay" class="hidden">
+    <div id="memo-modal">
+      <h3 id="memo-task-title" data-testid="memo-task-title"></h3>
+      <p id="memo-content" data-testid="memo-content"></p>
+      <button id="btn-close-memo" data-testid="btn-close-memo" class="btn btn-secondary">閉じる</button>
+    </div>
+  </div>
+
+  <!-- 確認ダイアログ -->
+  <div id="confirm-overlay" data-testid="confirm-overlay" class="hidden">
+    <div id="confirm-modal">
+      <p id="confirm-message" data-testid="confirm-message"></p>
+      <div class="form-actions">
+        <button id="btn-confirm-cancel" data-testid="btn-confirm-cancel" class="btn btn-secondary">キャンセル</button>
+        <button id="btn-confirm-ok" data-testid="btn-confirm-ok" class="btn btn-primary">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
